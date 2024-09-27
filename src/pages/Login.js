@@ -34,7 +34,7 @@ const Login = () => {
    <section id='login'> 
    <div className='mx-auto container p-4'>
     <div className='bg-white p-5 w-full max-w-sm mx-auto rounded-sm'>
-            <div className='w-20 h-20 mx-auto'>
+            <div className='w-20 h-20 mx-auto rounded-full overflow-hidden'>
                 <img src={LoginIcon} alt='Login-Icon' /> 
             </div> 
 

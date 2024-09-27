@@ -3,6 +3,7 @@ import LoginIcon from "../assest/signin.gif"
 import { FaEye } from "react-icons/fa"; 
 import { FaEyeSlash } from "react-icons/fa"; 
 import { Link } from 'react-router-dom';
+import imageToBaseString from '../helpers/imageToBaseString.js';
 
 const SignUp = () => { 
     
@@ -28,7 +29,16 @@ const SignUp = () => {
     })
    }
 
-   console.log("data login", data) 
+   const handleImageUpload = async (e) => {
+    const file = e.target.files[0] 
+    const imageUpload = await imageToBaseString(file)
+    setData((prev) => {
+        return {
+            ...prev,
+            profilePic:imageUpload
+        }
+    })
+   }
 
    const handleSubmit = (e) => {
     e.preventDefault()
@@ -37,8 +47,19 @@ const SignUp = () => {
     <section id='singup'> 
     <div className='mx-auto container p-4'>
      <div className='bg-white p-5 w-full max-w-sm mx-auto rounded-sm'>
-             <div className='w-20 h-20 mx-auto'>
-                 <img src={LoginIcon} alt='Login-Icon' /> 
+             <div className='w-20 h-20 mx-auto relative rounded-full overflow-hidden'> 
+                <div>
+                <img src={data.profilePic || LoginIcon} alt='Login-Icon' /> 
+                </div> 
+                <form> 
+                    <label> 
+                    <div className='text-xs bg-opacity-75 cursor-pointer bg-slate-200 text-center pt-2 pb-4 absolute w-full bottom-0'>
+                             Upload Photo
+                         </div>
+                    <input type='file' className='hidden' onChange={handleImageUpload}/> 
+                    </label>
+                </form>
+               
              </div> 
  
              <form className='pt-6 flex flex-col gap-2' onSubmit={handleSubmit}>  
@@ -48,7 +69,7 @@ const SignUp = () => {
                          Name :
                      </label>  
                      <div className='bg-slate-100 p-2'>
-                     <input name='name' onChange={handleOnChange} value={data.name} type='text' placeholder='enter your name' className='w-full h-full outline-none bg-transparent'/> 
+                     <input required name='name' onChange={handleOnChange} value={data.name} type='text' placeholder='enter your name' className='w-full h-full outline-none bg-transparent'/> 
                      </div>
                  </div> 
 
@@ -57,7 +78,7 @@ const SignUp = () => {
                          Email :
                      </label>  
                      <div className='bg-slate-100 p-2'>
-                     <input name='email' onChange={handleOnChange} value={data.email} type='email' placeholder='enter email' className='w-full h-full outline-none bg-transparent'/> 
+                     <input required name='email' onChange={handleOnChange} value={data.email} type='email' placeholder='enter email' className='w-full h-full outline-none bg-transparent'/> 
                      </div>
                  </div> 
                  <div>
@@ -65,7 +86,7 @@ const SignUp = () => {
                          Password :
                      </label>  
                      <div className='bg-slate-100 p-2 flex'>
-                     <input name='password' onChange={handleOnChange} value={data.password} type={showPassword?"text":"password"} placeholder='enter password' className='w-full h-full outline-none bg-transparent'/>  
+                     <input required name='password' onChange={handleOnChange} value={data.password} type={showPassword?"text":"password"} placeholder='enter password' className='w-full h-full outline-none bg-transparent'/>  
                      <div className='cursor-pointer text-xl' onClick={() => setShowPassword((prev) => !prev)}>
                          <span> 
                              {
@@ -83,7 +104,7 @@ const SignUp = () => {
                         Confirm Password :
                      </label>  
                      <div className='bg-slate-100 p-2 flex'>
-                     <input name='confirmPassword' onChange={handleOnChange} value={data.confirmPassword} type={showConfirmPassword?"text":"password"} placeholder='enter confirm password' className='w-full h-full outline-none bg-transparent'/>  
+                     <input required name='confirmPassword' onChange={handleOnChange} value={data.confirmPassword} type={showConfirmPassword?"text":"password"} placeholder='enter confirm password' className='w-full h-full outline-none bg-transparent'/>  
                      <div className='cursor-pointer text-xl' onClick={() => setShowConfirmPassword((prev) => !prev)}>
                          <span> 
                              {
