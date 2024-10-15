@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import LoginIcon from "../assest/signin.gif"
-import { FaEye } from "react-icons/fa"; 
+import { FaAws, FaEye } from "react-icons/fa"; 
 import { FaEyeSlash } from "react-icons/fa"; 
-import { Link } from 'react-router-dom';
+import { json, Link } from 'react-router-dom';
 import imageToBaseString from '../helpers/imageToBaseString.js';
+import summaryApi from '../common/index.js';
 
 const SignUp = () => { 
     
@@ -40,9 +41,24 @@ const SignUp = () => {
     })
    }
 
-   const handleSubmit = (e) => {
-    e.preventDefault()
-   }
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        if (data.password === data.confirmPassword) {
+            const dataResponse = await fetch(summaryApi.singup.url, {
+                method: summaryApi.singup.method,
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+
+            const dataAPI = await dataResponse.json();
+            console.log("data", dataAPI)
+        } else {
+            console.log("Please check password and confirm password!")
+        }
+    }
   return (
     <section id='singup'> 
     <div className='mx-auto container p-4'>
