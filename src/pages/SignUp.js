@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import LoginIcon from "../assest/signin.gif"
 import { FaAws, FaEye } from "react-icons/fa"; 
 import { FaEyeSlash } from "react-icons/fa"; 
-import { json, Link } from 'react-router-dom';
+import { json, Link, useNavigate } from 'react-router-dom';
 import imageToBaseString from '../helpers/imageToBaseString.js';
 import summaryApi from '../common/index.js';
+import { toast } from 'react-toastify';
 
 const SignUp = () => { 
     
@@ -18,6 +19,8 @@ const SignUp = () => {
         confirmPassword:"",
         profilePic:""
     })
+
+    const navigate = useNavigate()
 
    const handleOnChange = (e) => {
     const {name, value} = e.target
@@ -53,10 +56,18 @@ const SignUp = () => {
                 body: JSON.stringify(data)
             })
 
-            const dataAPI = await dataResponse.json();
-            console.log("data", dataAPI)
+            const dataAPI = await dataResponse.json(); 
+            if(dataAPI.success){
+                toast.success(dataAPI.message) 
+                navigate("/login")
+            }
+            else 
+            {
+                toast.error(dataAPI.message)
+            }
+          
         } else {
-            console.log("Please check password and confirm password!")
+            toast.error("Please check password and confirm password!")
         }
     }
   return (
